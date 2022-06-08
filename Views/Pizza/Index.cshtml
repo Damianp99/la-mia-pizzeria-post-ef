@@ -1,0 +1,115 @@
+﻿@using Microsoft.AspNetCore.Html
+@using System.Collections.Generic
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+
+}
+
+<!--
+nome repo: la-mia-pizzeria-static.
+Ciao ragazzi oggi iniziamo a muovere i primi passi con questo fantastico Asp .Net Core MVC!
+Dobbiamo realizzare un'applicazione web che ci aiuti a gestire la nostra pizzeria.
+Abbiamo bisogno di creare la nostra prima pagina index dove mostriamo tutte le pizze che prepariamo.
+Una pizza avrà le seguenti informazioni :
+un nome
+una descrizione
+una foto
+un prezzo
+Modifichiamo quindi la view Index.cshtml generata in automatico da .Net Core scrivendo l'html che serve a noi per mostrare l'elenco delle pizze
+(possiamo creare una tabella con bootstrap o una qualche grafica a nostro piacimento che mostri l'elenco delle pizze...proviamo un po' di creatività se vogliamo!)
+Piccolo suggerimento : ricordatevi di inserire il seguente codice all'inizio della vostra view 
+
+=========================================================================================
+
+
+Ciao ragazzi, andiamo avanti con l'applicazione per gestire la nostra pizzeria.
+Lo scopo di oggi è quello di rendere dinamici i contenuti che abbiamo come html statico nella pagina con la lista delle pizze. 
+Creiamo prima un nostro controller chiamato PizzaController e utilizziamo lui d'ora in avanti.
+L'elenco delle pizze ora va passato come model dal controller, e la view deve utilizzarlo per mostrare l'html corretto.
+Gestiamo anche la possibilità che non ci siano pizze nell'elenco: 
+in quel caso dobbiamo mostrare un messaggio che indichi all'utente che non ci sono pizze presenti nella nostra applicazione. 
+Ogni pizza dell'elenco avrà un pulsante che se cliccato ci porterà a una pagina che mostrerà i dettagli di quella singola pizza.
+Dobbiamo quindi inviare l'id come parametro dell'URL, recuperarlo con la action, caricare i dati della pizza ricercata e passarli come model.
+La view a quel punto li mostrerà all'utente con la grafica che preferiamo. 
+Ps. visto che abbiamo cambiato il controller sul quale lavoriamo, ricordiamoci di cambiare anche il "mapping di default" dei controller...
+altrimenti quale pagina viene caricata se richiamo l'url "/" della nostra webapp?
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" 
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/pizzeria.css">
+    <title>Struttura</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-light mb-5">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Menù Pizze</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Bevande</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class=" text-center text-primary"><h1>SCEGLI LA TUA PIZZA</h1></div>
+        <div class="row">
+            @{
+                foreach (var p in (List<Pizza>)Model.pizze)
+                {
+                    <div class="col-12 col-md-3 col-sm-6  mb-3">
+                        <div class="card ">
+                        <div class="card-img-top">
+                            <img class="img-fluid " src="@p.Url" alt="@p.Name">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">@p.Name</h4>
+                            <p class="card-text">"@p.Description"</p>
+                            <p class="fw-bolder"> <span class="fw-bolder">Prezzo : </span>@p.Price <span class="text-success">&euro;</span></p>
+                            <div class="text-end">
+                                <a href="@Url.Action("Show", "Pizza", new {@p.Id})">@p.Name    VEDI <i class="fa-solid fa-eye "></i> </a>
+                              
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                }  
+            }
+    </div>
+                    
+    <!---->
+
+    
+
+
+
+   
+
+    </main>
+  
+   <footer class="border-top footer mt-5 bg-primary text-white text-sm">
+        <div class="container">
+          <span>&copy; 2022 - Pizzeria K.O.</span> 
+        </div>
+    </footer>
+</body>
+</html>
